@@ -23,6 +23,8 @@
         <button @click="addUser">Add User</button>
         <br>
         <p>{{ this.message }}</p>
+        <br>
+        <button @click="returnHomePage"> Return Home Page</button>
     </div>
 </template>
 <script>
@@ -41,6 +43,10 @@ export default {
         }
     },
     methods: {
+        returnHomePage(event) {
+            event.preventDefault();
+            this.$router.push({name: "adminHomePage"});
+        },
         addUser(event) {
             event.preventDefault();
             console.log(this.userName);
@@ -58,10 +64,9 @@ export default {
                 })
         },
         getPrograms() {
-            // Call the API to fetch program options
             AdminService.getAllPrograms()
                 .then(response => {
-                    this.programOptions = response.data; // Assign fetched program options to programOptions array
+                    this.programOptions = response.data;
                 })
                 .catch(error => {
                     console.error("Error fetching program options:", error);
