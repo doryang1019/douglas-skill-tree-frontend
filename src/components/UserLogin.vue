@@ -13,6 +13,7 @@
             <div>
                 <button type="submit" @click="login">Login</button>
             </div>
+
         </form>
         <p>This is a test {{ message }}</p>
     </div>
@@ -36,13 +37,13 @@ export default{
             event.preventDefault();
             LoginService.login(this.userLoginService)
                 .then( response =>{
-                   
+
                     let user = response.data;
                     console.log(user)
 
 
                     localStorage.setItem('uid', user.id) // id by h2DB
-                    
+
                     let isAdmin = user.admin
                     console.log("check the admin " + isAdmin)
                     localStorage.setItem('uName', user.id)
@@ -56,10 +57,10 @@ export default{
                     else{
                         //this.message = " Not Admin"
                     }
-                    
+
 
                 }
-                    
+
                 )
                 .catch(err =>{
                     this.userLoginService.userID = "";

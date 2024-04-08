@@ -18,6 +18,13 @@ class AdminService{
     deleteCourse(courseid){
         return http.delete(`/course/${courseid}`)
     }
+    addUser(userName, password, isAdmin, program) {
+        return http.post("/user/add", {userName, password,isAdmin, programId: program});
+    }
+
+    getAllPrograms() {
+        return http.get("/program");
+    }
 
 
 }

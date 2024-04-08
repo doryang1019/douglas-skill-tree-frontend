@@ -6,6 +6,7 @@ import AdminAdd from "@/components/AdminAddCourse.vue"
 import AdminUpdate from "@/components/AdminUpdateCourse.vue"
 import AdminDelete from "@/components/AdminDeleteCourse.vue"
 import AdminFindCSS from "@/components/AdminFindCourseStudStat.vue"
+import AddUser from "@/components/AddUser.vue";
 
 const routes =[
     {
@@ -40,6 +41,11 @@ const routes =[
         name:"findCourseOfStudent",
         component: AdminFindCSS
     },
+    {
+        path: "/admin/addUser",
+        name:"addUser",
+        component: AddUser,
+    }
 
 ]
 

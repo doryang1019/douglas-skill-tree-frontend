@@ -10,9 +10,12 @@
         <input type="text" id="coursecode" v-model="requisitesInput"/>
         <br/>
         <button @click="addCourseHandler">Add</button>
+        <div>
+            <button @click="returnHomePage">Return Home Page</button>
+        </div>
 
         <p>{{ message }}</p>
-        
+
     </div>
 
 </template>
@@ -26,15 +29,19 @@ export default {
     name: "adminAddCourse",
     data(){
         return {
-            addCourseInfo:{code: "", 
+            addCourseInfo:{code: "",
                             title:"",
                             requisitesOf:[]},
            requisitesInput: "",
             message:""
-            
+
         }
     },
     methods:{
+        returnHomePage(event) {
+            event.preventDefault();
+            this.$router.push({name:"adminHomePage"});
+        },
         addCourseHandler(event){
             event.preventDefault();
             const requisites = this.requisitesInput.split(",").map(requisite => requisite.trim());
@@ -44,7 +51,7 @@ export default {
                     let couseDetail = res.data
                     console.log(res.data)
                     console.log(this.courseDetail)
-                    this.message = "Course added " +  couseDetail
+                    this.message = "Course added \n" +  JSON.stringify(couseDetail);
                 })
                 .catch(err =>{
                     this.addCourseInfo.code = "";
