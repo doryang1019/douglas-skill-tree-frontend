@@ -18,6 +18,14 @@
                 :value="programOption.id">{{ programOption.description }}</option>
              </select>
         </div>
+        <div class="info">
+            <label> is Admin ? </label>
+            <select class="searchbar" v-model="isAdmin">
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+
+        </div>
         <div class="button-container">
             <button class="searchbtn" @click="addUser">Add User</button>
             <button class="searchbtn" @click="returnHomePage">Return Home Page</button>
@@ -135,7 +143,7 @@ export default {
 
 .searchbar {
     width: 300px;
-    height: 30px;
+    height: 50px;
     padding: 10px;
     border-radius: 20px;
     border: 1px solid #ccc;
