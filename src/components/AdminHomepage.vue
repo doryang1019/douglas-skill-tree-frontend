@@ -23,7 +23,7 @@
                 <input class="searchbar" type="text" v-model="courseKeyword" placeholder="Please enter course code or course name">
                 <button class="searchbtn" @click="findCourseByKeyword"> Search Course</button>
             </div>
-            <div v-for="course in courses" :key="course.id" class="course-card" :style="{ backgroundColor: course.status.taken ? course.status.done ? '#B0C5A4' : '#eee8aa' : ''}">
+            <div v-for="course in courses" :key="course.id" class="course-card" :style="{ backgroundColor: course.status.taken ? course.status.done ? '#FBF9F1' : '#FFF8E3' : ''}">
                 <h3>{{ course.title }}</h3>
                 <p><strong>Code: {{ course.code }}</strong></p>
                 <p v-if="!isAdmin"><strong>Status: {{ course.status ? course.status.taken ? course.status.done ? "Finished  &#9873;" : "Progressing  &#9872;" : "Not Taken" :  "NA"}}</strong></p>
