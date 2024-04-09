@@ -1,16 +1,16 @@
 <template>
-    <li v-for="(requisite) in requisites" :key="requisite.id" class="requisite-item">
+    <li v-for="(requisite) in requisites" :key="requisite.id" class="requisite-item" :style="{ backgroundColor: requisite.status.taken ? requisite.status.done ? '#B0C5A4' : '#eee8aa' : ''}">
       <div class="requisite-content">
         <div class="requisite-header">
           <h3>{{ requisite.title }}</h3>
         </div>
         <div class="requisite-details">
-          <p><strong>Course ID:</strong> {{ requisite.id }}</p>
-          <p><strong>Course Title:</strong> {{ requisite.title }}</p>
-          <p><strong>Course Code:</strong> {{ requisite.code }}</p>
+          <p><strong>Code:</strong> {{ requisite.code }}</p>
+          <p v-if="!isAdmin"><strong>Status: {{ requisite.status ? requisite.status.taken ? requisite.status.done ? "Finished &#9873;" : "Progressing &#9872;" : "Not Taken" :  "NA"}}</strong></p>
         </div>
       </div>
       <ul v-if="requisite.requisitesOf.length > 0">
+        <p><strong>Requisites of:</strong></p>
         <recursive-requisite :requisites="requisite.requisitesOf" />
       </ul>
     </li>
@@ -19,7 +19,16 @@
   <script>
   export default {
     name: 'RecursiveRequisite',
-    props: ['requisites']
+    props: ['requisites'],
+    data() {
+        return {
+            isAdmin: false,
+        }
+    },
+    mounted() {
+        console.log(localStorage.getItem('isAdmin').toString());
+        this.isAdmin = localStorage.getItem('isAdmin').toString() === "true" ? true : false;
+    }
   };
   </script>
 

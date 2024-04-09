@@ -6,7 +6,7 @@
 
         <div class="info">
             <label>Course Code</label>
-            <select class="searchbar-list-code" v-model="selectedCourse">
+            <select class="searchbar-list-code" v-model="selectedCourse" @change="filterRequisites()">
                 <option v-for="course in courses" :key="course.id" :value="course">{{ course.code + "-" + course.title }}</option>
             </select>
         </div>
@@ -47,6 +47,9 @@ export default {
         }
     },
     methods: {
+        filterRequisites() {
+            this.courses2 = this.courses2.filter(x => x.id !== this.selectedCourse.id);
+        },
         changePlaceHolder() {
             if(this.selectedCourse.title) {
                 return this.selectedCourse.title;

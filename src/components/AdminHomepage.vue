@@ -26,10 +26,10 @@
             </div>
             <div v-for="course in courses" :key="course.id" class="course-card">
                 <h3>{{ course.title }}</h3>
-                <p>Code: {{ course.code }}</p>
-                <p>Status: {{ course.status }}</p>
+                <p><strong>Code: {{ course.code }}</strong></p>
+                <p v-if="!isAdmin"><strong>Status: {{ course.status ? course.status.taken ? course.status.done ? "Finished" : "Progressing" : "Not Taken" :  "NA"}}</strong></p>
                 <div v-if="course.requisitesOf.length > 0">
-                    <p>Requisites of:</p>
+                    <p><strong>Requisites of:</strong></p>
                     <ul>
                         <recursive-requisite :requisites="course.requisitesOf" />
                     </ul>
@@ -63,12 +63,12 @@ export default {
     methods: {
         logout(event) {
             event.preventDefault();
-            localStorage.removeItem('uid');
-            localStorage.removeItem('uName');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userName');
         },
         retrieveCourses() {
             // console.log("this.userProgram.id" + this.userProgram.id);
-            CourseService.getAllCourse(this.userProgram ? this.userProgram.id : null)
+            CourseService.getAllCourse(this.userProgram ? this.userProgram.id : null, this.userId)
                 .then(res => {
                     this.courses = res.data;
                 })
@@ -77,7 +77,7 @@ export default {
                 });
         },
         findCourseByKeyword() {
-            CourseService.getCourseByKey(this.courseKeyword, this.userProgram ? this.userProgram.id : null)
+            CourseService.getCourseByKey(this.courseKeyword, this.userProgram ? this.userProgram.id : null, this.userId)
             .then(res => {
                 this.courses = res.data;
             })
