@@ -1,7 +1,10 @@
 <template>
     <div class="container">
       <!-- Vertical navbars -->
-      <div class="nav">
+      <div class="header">
+            <h2 class="title">User Information</h2>
+        </div>
+      <div class="nav-bar">
         <ul>
           <li @click="showTab('info')" :class="{ active: activeTab === 'info' }">Student Info</li>
           <li @click="showTab('courseStatus')" :class="{ active: activeTab === 'courseStatus' }">Student Course Status</li>
@@ -10,18 +13,17 @@
       </div>
 
       <!-- Content area -->
-      <div class="content">
+      <div>
         <div v-if="activeTab === 'info'">
-          <h2>Student Information</h2>
-          <div>
-            <label>Sutdent ID:</label>
+          <div class="info">
+            <label>Student ID:</label>
             <p>{{ studentInfo.id }}</p>
           </div>
-          <div>
+          <div class="info">
             <label>Student Name:</label>
             <p>{{ studentInfo.name }}</p>
           </div>
-          <div>
+          <div class="info">
             <label>Program:</label>
             <p>{{ studentInfo.program ? studentInfo.program.description : "None" }}</p>
           </div>
@@ -67,63 +69,135 @@
   </script>
 
   <style scoped>
-
-  .container {
-    display: flex;
-    align-items: flex-start;
-  }
-
-  .nav {
-    width: 200px;
-    background-color: #99CCFF;
-    padding: 20px;
-  }
-
-  .nav ul {
-    list-style-type: none;
-    padding: 0;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
-  }
-
-  .nav li {
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 5px;
+  .nav-bar {
     margin-bottom: 10px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
   }
+  .nav-bar ul {
+    display: flex;
+    justify-content: space-between; /* Distribute items evenly */
+    list-style-type: none;
+    margin-bottom: 10px;
+}
 
-  .nav li:hover {
-    background-color: #77aaff;
-  }
+.nav-bar ul li {
+    margin-bottom:10px;
+    padding: 8px 20px; /* Adjust padding as needed */
+    background-color: #b7b1a5;
+    color: #080710;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 
-  .nav li.active {
-    background-color: #6699ff;
+.nav-bar ul li:hover {
+    background-color: #cac3bb;
+}
+
+label {
+    text-align: center;
+}
+.container {
+    padding: 20px;
+    width: 70%;
+    align-content: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.header {
+    border: 2px solid #000;
+    border-radius: 5%;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+.info {
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center; /* Align items vertically */
     font-weight: bold;
-  }
+    font-size: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 
-  .content {
+.info label {
+    margin-right: 10px; /* Adjust margin between label and p */
+}
+
+.info p {
     margin-left: 20px;
-  }
+}
 
-  .content h2 {
+
+
+.searchbtn {
+    background-color: #d8caaf;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+.searchbtn:hover {
+    background-color: #d3d4cc;
+}
+
+.searchbar {
+    width: 300px;
+    height: 30px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+.searchbar-list {
+    width: 350px;
+    height: 350px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+.text-f {
     margin-bottom: 20px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
-  }
+}
 
-  label {
-    font-weight: bold;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.button-container {
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
-  }
-
-  p {
-    margin-top: 5px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
-
-  }
+}
   </style>

@@ -18,16 +18,15 @@
             <button @click="goToStudentInfo">My Information</button>
             <button @click="goToLoginPage">Logout</button>
         </nav>
-
         <div v-if="showCourses && courses" class="course-container">
             <div class="search-container">
                 <input class="searchbar" type="text" v-model="courseKeyword" placeholder="Please enter course code or course name">
                 <button class="searchbtn" @click="findCourseByKeyword"> Search Course</button>
             </div>
-            <div v-for="course in courses" :key="course.id" class="course-card">
+            <div v-for="course in courses" :key="course.id" class="course-card" :style="{ backgroundColor: course.status.taken ? course.status.done ? '#B0C5A4' : '#eee8aa' : ''}">
                 <h3>{{ course.title }}</h3>
                 <p><strong>Code: {{ course.code }}</strong></p>
-                <p v-if="!isAdmin"><strong>Status: {{ course.status ? course.status.taken ? course.status.done ? "Finished" : "Progressing" : "Not Taken" :  "NA"}}</strong></p>
+                <p v-if="!isAdmin"><strong>Status: {{ course.status ? course.status.taken ? course.status.done ? "Finished  &#9873;" : "Progressing  &#9872;" : "Not Taken" :  "NA"}}</strong></p>
                 <div v-if="course.requisitesOf.length > 0">
                     <p><strong>Requisites of:</strong></p>
                     <ul>
