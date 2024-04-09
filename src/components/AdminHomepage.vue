@@ -67,7 +67,8 @@ export default {
             localStorage.removeItem('uName');
         },
         retrieveCourses() {
-            CourseService.getAllCourse()
+            // console.log("this.userProgram.id" + this.userProgram.id);
+            CourseService.getAllCourse(this.userProgram ? this.userProgram.id : null)
                 .then(res => {
                     this.courses = res.data;
                 })
@@ -76,7 +77,7 @@ export default {
                 });
         },
         findCourseByKeyword() {
-            CourseService.getCourseByKey(this.courseKeyword)
+            CourseService.getCourseByKey(this.courseKeyword, this.userProgram ? this.userProgram.id : null)
             .then(res => {
                 this.courses = res.data;
             })
@@ -113,6 +114,7 @@ export default {
         this.userId = localStorage.getItem('userId');
         this.userName = localStorage.getItem('userName');
         this.userProgram = JSON.parse(localStorage.getItem('program'));
+        // console.log("userprogram" + this.userProgram.id)
     }
 };
 </script>

@@ -14,17 +14,18 @@
         <div v-if="activeTab === 'info'">
           <h2>Student Information</h2>
           <div>
-            <label>Name:</label>
+            <label>Sutdent ID:</label>
+            <p>{{ studentInfo.id }}</p>
+          </div>
+          <div>
+            <label>Student Name:</label>
             <p>{{ studentInfo.name }}</p>
           </div>
           <div>
             <label>Program:</label>
-            <p>{{ studentInfo.program }}</p>
+            <p>{{ studentInfo.program ? studentInfo.program.description : "None" }}</p>
           </div>
-          <div>
-            <label>GPA:</label>
-            <p>{{ studentInfo.gpa }}</p>
-          </div>
+
         </div>
         <div v-else-if="activeTab === 'courseStatus'">
           <h2>Student Course Status</h2>
@@ -42,9 +43,9 @@
       return {
         activeTab: 'info', // Default tab to display
         studentInfo: {
-          name: 'John Doe',
-          program: 'Computer Science',
-          gpa: '3.8'
+          name: '',
+          program: { description: "", id: "", stream: 0},
+          id: ""
         }
       };
     },
@@ -56,6 +57,11 @@
         // Redirect to the main page
         this.$router.push({ name: 'adminHomePage' });
       }
+    },
+    mounted() {
+        this.studentInfo.name = localStorage.getItem("userName");
+        this.studentInfo.id = localStorage.getItem('userId');
+        this.studentInfo.program = JSON.parse(localStorage.getItem('program'));
     }
   };
   </script>

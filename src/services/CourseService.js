@@ -1,10 +1,16 @@
 import http from "../http-common.js"
 class CourseService{
-    getAllCourse(){
-        return http.get(`/course`);
+    getAllCourse(programId){
+        if(String(programId) !== "undefined" && String(programId) !== "null") {
+            return http.get(`/course?program=${programId}`);
+        } else {
+            return http.get(`/course`);
+        }
+
     }
-    getCourseByKey(inputkey){
-        return http.get(`/course?key=${inputkey}`);
+    getCourseByKey(inputkey, programId){
+        console.log("programIdkey" + programId);
+        return http.get(`/course?key=${inputkey}&program=${programId ? programId : ""}`);
     }
     getCourseUserStatus(courseID, userID){
         return http.get(`/course/${courseID}/${userID}`)
