@@ -114,6 +114,7 @@ export default {
         this.userId = localStorage.getItem('userId');
         this.userName = localStorage.getItem('userName');
         this.userProgram = JSON.parse(localStorage.getItem('program'));
+        this.btnAllCoursesHandler();
         // console.log("userprogram" + this.userProgram.id)
     }
 };
