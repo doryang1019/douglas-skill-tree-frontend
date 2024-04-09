@@ -7,7 +7,10 @@
         <input type="text" id="coursecode" v-model="addCourseInfo.title"/>
         <br/>
         <label>Requisites Of</label>
-        <input type="text" id="coursecode" v-model="requisitesInput"/>
+        <select v-model="addCourseInfo.requisitesOf" multiple>
+            <option v-for=" course in courses" :key="course.id" :value="course.id" :code="course.code" :title="course.title"> {{ course.title }}</option>
+        </select>
+        <!-- <input type="text" id="coursecode" v-model="requisitesInput"/> -->
         <br/>
         <button @click="addCourseHandler">Add</button>
         <div>
@@ -23,7 +26,7 @@
 <script>
 
 
-import AdminService from '@/services/AdminService'
+import CourseService from '@/services/CourseService'
 
 export default {
     name: "adminAddCourse",
@@ -33,7 +36,8 @@ export default {
                             title:"",
                             requisitesOf:[]},
            requisitesInput: "",
-            message:""
+            message:"",
+            courses: [],
 
         }
     },
@@ -42,11 +46,20 @@ export default {
             event.preventDefault();
             this.$router.push({name:"adminHomePage"});
         },
+        geAllCourses() {
+            CourseService.getUnformatCourse()
+            .then(res => {
+                this.courses = res.data;
+            }).catch(err => {
+                this.courses = [];
+                console.log(err);
+            })
+        },
         addCourseHandler(event){
             event.preventDefault();
-            const requisites = this.requisitesInput.split(",").map(requisite => requisite.trim());
-            this.addCourseInfo.requisitesOf = requisites;
-            AdminService.addCourse(this.addCourseInfo)
+            console.log("reqreq" + this.addCourseInfo.requisitesOf);
+            // const requisites = this.requisitesInput.split(",").map(requisite => requisite.trim());
+            CourseService.addCourse(this.addCourseInfo)
                 .then(res =>{
                     let couseDetail = res.data
                     console.log(res.data)
@@ -64,7 +77,8 @@ export default {
         },
     },
     mounted(){
-        this.message = ""
+        this.message = "";
+        this.geAllCourses();
 
     }
 }

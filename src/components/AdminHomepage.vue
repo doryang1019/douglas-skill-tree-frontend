@@ -1,99 +1,231 @@
 <template>
-    <div>
-      <h1>Welcome</h1>
-      <button>
-        <router-link to="/" @click="logout">Logout</router-link>
-      </button>
-      <button @click="btnAllCoursesHandler">All courses</button>
-      <button>
-        <router-link to="/admin/add">Add Course</router-link>
-      </button>
-      <button>
-        <router-link to="/admin/update">Update Course</router-link>
-      </button>
-      <button>
-        <router-link to="/admin/delete">Delete Course</router-link>
-      </button>
-      <button>
-        <router-link to="/admin/findCSS">Find Course Status Of Student</router-link>
-      </button>
-      <button>
-        <router-link to="/admin/addUser">Add User</router-link>
-      </button>
-
-      <div v-if="showCourses && courses">
-        <h2>All Courses</h2>
-        <div v-for="course in courses" :key="course.id" class="course-card">
-          <h3>{{ course.title }}</h3>
-          <p>Code: {{ course.code }}</p>
-          <p>Status: {{ course.status }}</p>
-          <div v-if="course.requisitesOf.length > 0">
-            <p>Requisites of:</p>
-            <ul>
-              <recursive-requisite :requisites="course.requisitesOf" />
-            </ul>
-          </div>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Welcome to Douglas Skill Tree</h1>
+            <div class="info">
+                <span>User Id: {{ this.userId }}</span>
+                <span>User Name: {{ this.userName }}</span>
+                <span>Admin: {{ isAdmin ? 'Yes' : 'No' }}</span>
+                <span>Program: {{ this.userProgram ? this.userProgram.description : "" }}</span>
+            </div>
         </div>
-      </div>
-    </div>
-  </template>
+        <nav class="nav-bar">
+            <button @click="btnAllCoursesHandler">All courses</button>
+            <button v-if="isAdmin" @click="goToAddCourse">Add Course</button>
+            <button v-if="isAdmin" @click="goToUpdateCourse">Update Course</button>
+            <button v-if="isAdmin" @click="goToDeleteCourse">Delete Course</button>
+            <button v-if="isAdmin" @click="goToAddUser">Add Admin/User</button>
+            <button @click="goToStudentInfo">My Information</button>
+            <button @click="goToLoginPage">Logout</button>
+        </nav>
 
-  <script>
+        <div v-if="showCourses && courses" class="course-container">
+            <div class="search-container">
+                <input class="searchbar" type="text" v-model="courseKeyword" placeholder="Please enter course code or course name">
+                <button class="searchbtn" @click="findCourseByKeyword"> Search Course</button>
+            </div>
+            <div v-for="course in courses" :key="course.id" class="course-card">
+                <h3>{{ course.title }}</h3>
+                <p>Code: {{ course.code }}</p>
+                <p>Status: {{ course.status }}</p>
+                <div v-if="course.requisitesOf.length > 0">
+                    <p>Requisites of:</p>
+                    <ul>
+                        <recursive-requisite :requisites="course.requisitesOf" />
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<script>
 import RecursiveRequisite from '@/components/RecursiveRequisite.vue';
-import AdminService from '@/services/AdminService';
+import CourseService from '@/services/CourseService';
 
 export default {
-  name: "adminHomePage",
-  components: {
-    RecursiveRequisite
-  },
-  data() {
-    return {
-      courses: null,
-      showCourses: false,
-    }
-  },
-  methods: {
-    logout(event) {
-      event.preventDefault();
-      localStorage.removeItem('uid');
-      localStorage.removeItem('uName');
+    name: "adminHomePage",
+    components: {
+        RecursiveRequisite
     },
-    retrieveCourses() {
-      AdminService.getAllCourse()
-        .then(res => {
-          this.courses = res.data;
-        })
-        .catch(err => {
-          console.error("Error fetching courses:", err);
-        });
+    data() {
+        return {
+            courses: null,
+            showCourses: false,
+            isAdmin: false,
+            userName: "",
+            userId: "",
+            userProgram: null,
+            courseKeyword: "",
+        }
     },
-    btnAllCoursesHandler() {
-      this.showCourses = true;
-      this.retrieveCourses();
+    methods: {
+        logout(event) {
+            event.preventDefault();
+            localStorage.removeItem('uid');
+            localStorage.removeItem('uName');
+        },
+        retrieveCourses() {
+            CourseService.getAllCourse()
+                .then(res => {
+                    this.courses = res.data;
+                })
+                .catch(err => {
+                    console.error("Error fetching courses:", err);
+                });
+        },
+        findCourseByKeyword() {
+            CourseService.getCourseByKey(this.courseKeyword)
+            .then(res => {
+                this.courses = res.data;
+            })
+            .catch(err => {
+                console.error("error get courses", err);
+            })
+        },
+        btnAllCoursesHandler() {
+            this.showCourses = true;
+            this.retrieveCourses();
+        },
+        goToAddCourse() {
+            this.$router.push({ name: "addCourse" });
+        },
+        goToUpdateCourse() {
+            this.$router.push({ name: "updateCourse" });
+        },
+        goToDeleteCourse() {
+            this.$router.push({ name: "deleteCourse" });
+        },
+        goToAddUser() {
+            this.$router.push({ name: "addUser" });
+        },
+        goToStudentInfo() {
+            this.$router.push({ name: "studentInfo" });
+        },
+        goToLoginPage() {
+            this.$router.push({ name: "userLogin" });
+        }
+    },
+    mounted() {
+        console.log("isAdmin: " + localStorage.getItem('isAdmin'));
+        this.isAdmin = localStorage.getItem('isAdmin').toString() === "true" ? true : false;
+        this.userId = localStorage.getItem('userId');
+        this.userName = localStorage.getItem('userName');
+        this.userProgram = JSON.parse(localStorage.getItem('program'));
     }
-  }
 };
 </script>
 
 <style scoped>
-.course-card {
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.searchbtn {
+    background-color: #d8caaf;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 5px;
+}
+
+.searchbtn:hover {
+    background-color: #d3d4cc;
+}
+
+.search-container {
+    text-align: center;
+}
+
+.searchbar {
+    width: 350px;
+    height: 40px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.header {
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border: 2px solid #000;
+  border-radius: 5%;
   padding: 10px;
+  text-align: center;
   margin-bottom: 10px;
 }
 
-.course-card h3 {
-  margin-top: 0;
+.title {
+  font-size: 24px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin-bottom: 10px;
 }
 
-.course-card ul {
-  margin-top: 5px;
-  margin-bottom: 0;
+.info {
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+.container {
+    padding: 20px;
 }
 
-.course-card ul li {
-  list-style: none;
+.text-f {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.nav-bar button,
+.nav-bar a {
+    flex: 1;
+    margin-right: 10px;
+    padding: 8px 0;
+    background-color: #b7b1a5;
+    color: #080710;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav-bar button:last-child,
+.nav-bar a:last-child {
+    margin-right: 0;
+}
+
+.nav-bar button:hover,
+.nav-bar a:hover {
+    background-color: #cac3bb;
+}
+
+.course-container {
+    margin-top: 20px;
+}
+
+.course-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 </style>

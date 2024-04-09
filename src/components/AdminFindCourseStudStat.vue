@@ -24,14 +24,14 @@
                 </li>
             </ul> -->
         </div>
-        
+
     </div>
 
 </template>
 
 <script>
 
-import AdminService from '@/services/AdminService'
+import CourseService from '@/services/CourseService'
 
 export default {
     name: "findCourseOfStudent",
@@ -41,20 +41,20 @@ export default {
            userID:0,
            courseInfo:null,
             message:""
-            
+
         }
     },
     methods:{
         searchCourseStudentStat(event){
             event.preventDefault();
-            AdminService.getCourseUserStatus(this.courseID, this.userID)
+            CourseService.getCourseUserStatus(this.courseID, this.userID)
                 .then(res=>{
                     this.courseInfo = res.data
                     this.message ="Finding Suceess";
                 })
                 .catch(err =>{
                     this.courseID = 0;
-                    
+
                     this.message = "Error Occurs";
                     console.log(err);
                 })

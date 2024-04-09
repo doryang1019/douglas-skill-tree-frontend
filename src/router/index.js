@@ -7,7 +7,7 @@ import AdminUpdate from "@/components/AdminUpdateCourse.vue"
 import AdminDelete from "@/components/AdminDeleteCourse.vue"
 import AdminFindCSS from "@/components/AdminFindCourseStudStat.vue"
 import AddUser from "@/components/AddUser.vue";
-
+import StudentInfo from "@/components/StudentInfo.vue";
 const routes =[
     {
         path:"/",
@@ -45,6 +45,11 @@ const routes =[
         path: "/admin/addUser",
         name:"addUser",
         component: AddUser,
+    },
+    {
+        path: "/student/info",
+        name: "studentInfo",
+        component: StudentInfo,
     }
 
 ]

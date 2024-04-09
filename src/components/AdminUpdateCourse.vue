@@ -15,7 +15,7 @@
         <button @click="updateCourseHandler">Update</button>
 
         <p>{{ message }}</p>
-        
+
     </div>
 
 </template>
@@ -23,19 +23,19 @@
 <script>
 
 
-import AdminService from '@/services/AdminService'
+import CourseService from '@/services/CourseService'
 
 export default {
     name: "adminUpdateCourse",
     data(){
         return {
-            CourseInfo:{code: "", 
+            CourseInfo:{code: "",
                             title:"",
                             requisitesOf:[]},
            requisitesInput: "",
            courseID: 0,
             message:""
-            
+
         }
     },
     methods:{
@@ -43,7 +43,7 @@ export default {
             event.preventDefault();
             const requisites = this.requisitesInput.split(",").map(requisite => requisite.trim());
             this.CourseInfo.requisitesOf = requisites;
-            AdminService.updateCourse(this.CourseInfo, this.courseID)
+            CourseService.updateCourse(this.CourseInfo, this.courseID)
                 .then(res =>{
                     let couseDetail = res.data
                     console.log(res.data)

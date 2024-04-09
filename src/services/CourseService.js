@@ -1,5 +1,5 @@
 import http from "../http-common.js"
-class AdminService{
+class CourseService{
     getAllCourse(){
         return http.get(`/course`);
     }
@@ -18,15 +18,11 @@ class AdminService{
     deleteCourse(courseid){
         return http.delete(`/course/${courseid}`)
     }
-    addUser(userName, password, isAdmin, program) {
-        return http.post("/user/add", {userName, password,isAdmin, programId: program});
-    }
-
-    getAllPrograms() {
-        return http.get("/program");
+    getUnformatCourse() {
+        return http.get(`/course/all`);
     }
 
 
 }
 
-export default new AdminService();
+export default new CourseService();

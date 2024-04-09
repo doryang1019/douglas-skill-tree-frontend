@@ -5,14 +5,14 @@
         <br/>
         <button @click="deleteCourseHandler">Delete</button>
         <p>{{ message }}</p>
-        
+
     </div>
 
 </template>
 
 <script>
 
-import AdminService from '@/services/AdminService'
+import CourseService from '@/services/CourseService'
 
 export default {
     name: "adminDeleteCourse",
@@ -20,20 +20,20 @@ export default {
         return {
            courseID: 0,
             message:""
-            
+
         }
     },
     methods:{
         deleteCourseHandler(event){
             event.preventDefault();
             console.log(this.courseID)
-            AdminService.deleteCourse(this.courseID)
+            CourseService.deleteCourse(this.courseID)
                 .then(()=>{
                     this.message ="Course Deleted";
                 })
                 .catch(err =>{
                     this.courseID = 0;
-                    
+
                     this.message = "Forbidden Delete Action";
                     console.log(err);
                 })

@@ -28,8 +28,8 @@
     </div>
 </template>
 <script>
-import AdminService from '@/services/AdminService';
-
+import UserService from '@/services/UserService';
+import ProgramService from '@/services/ProgramService';
 export default {
     name: "addUser",
     data() {
@@ -51,7 +51,7 @@ export default {
             event.preventDefault();
             console.log(this.userName);
             const admin = this.isAdmin === "Yes" ? true : false;
-            AdminService.addUser(this.userName, this.password, admin, this.program)
+            UserService.addUser(this.userName, this.password, admin, this.program)
                 .then(() => {
                     this.message = "User Added";
                 })
@@ -64,7 +64,7 @@ export default {
                 })
         },
         getPrograms() {
-            AdminService.getAllPrograms()
+            ProgramService.getAllPrograms()
                 .then(response => {
                     this.programOptions = response.data;
                 })
