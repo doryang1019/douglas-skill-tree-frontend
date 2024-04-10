@@ -6,7 +6,7 @@
                 <span>User Id: {{ this.userId }}</span>
                 <span>User Name: {{ this.userName }}</span>
                 <span>Admin: {{ isAdmin ? 'Yes' : 'No' }}</span>
-                <span>Program: {{ this.userProgram ? this.userProgram.description : "" }}</span>
+                <span v-if="!isAdmin">Program: {{ this.userProgram ? this.userProgram.description : "" }}</span>
             </div>
         </div>
         <nav class="nav-bar">
