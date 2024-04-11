@@ -108,7 +108,8 @@ export default {
       this.studentInfo.name = localStorage.getItem("userName");
       this.studentInfo.id = localStorage.getItem('userId');
       this.studentInfo.program = JSON.parse(localStorage.getItem('program'));
-      CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
+      if(this.studentInfo.program && this.studentInfo.id){
+        CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
       .then(response => {
         this.courses = response.data.map(course => {
           let selectedStatus = "";
@@ -132,6 +133,7 @@ export default {
       .catch(err => {
         console.error("Error fetching courses:", err);
       });
+      }
   }
 };
 </script>
