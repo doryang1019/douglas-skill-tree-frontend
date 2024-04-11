@@ -78,14 +78,9 @@ export default {
         },
         addCourseHandler(event){
             event.preventDefault();
-            console.log("reqreq" + this.addCourseInfo.requisitesOf);
-            console.log("programId: " + this.program);
-            // const requisites = this.requisitesInput.split(",").map(requisite => requisite.trim());
             CourseService.addCourse({course: this.addCourseInfo, programId: this.program})
                 .then(res =>{
                     let couseDetail = res.data
-                    console.log(res.data)
-                    console.log(this.courseDetail)
                     this.message = "Course added \n" +  JSON.stringify(couseDetail);
                 })
                 .catch(err =>{
