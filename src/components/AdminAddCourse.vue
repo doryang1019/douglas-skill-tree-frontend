@@ -5,11 +5,19 @@
         </div>
         <div class="info">
             <label>Course Code</label>
-            <input type="text" class="searchbar" v-model="addCourseInfo.code" placeholder="please enter course code"/>
+            <input type="text" class="searchbar" v-model="addCourseInfo.code" placeholder="please enter course code" />
         </div>
         <div class="info">
             <label>Course Title</label>
-            <input type="text" class="searchbar" v-model="addCourseInfo.title" placeholder="please enter course title"/>
+            <input type="text" class="searchbar" v-model="addCourseInfo.title"
+                placeholder="please enter course title" />
+        </div>
+        <div class="info">
+            <label>Program Name</label>
+            <select class="searchbar" v-model="program">
+            <option v-for="(programOption) in programOptions" :key="programOption.id" :stream="programOption.stream"
+                :value="programOption.id">{{ programOption.description }}</option>
+             </select>
         </div>
         <div class="info">
             <label>Requisites Of</label>
@@ -30,58 +38,71 @@
 
 
 import CourseService from '@/services/CourseService'
-
+import ProgramService from '@/services/ProgramService';
 export default {
     name: "adminAddCourse",
-    data(){
+    data() {
         return {
-            addCourseInfo:{code: "",
-                            title:"",
-                            requisitesOf:[]},
-           requisitesInput: "",
-            message:"",
+            addCourseInfo: {
+                code: "",
+                title: "",
+                requisitesOf: []
+            },
+            requisitesInput: "",
+            message: "",
             courses: [],
+            programOptions: [],
 
         }
     },
-    methods:{
+    methods: {
         returnHomePage(event) {
             event.preventDefault();
-            this.$router.push({name:"adminHomePage"});
+            this.$router.push({ name: "adminHomePage" });
         },
         geAllCourses() {
             CourseService.getUnformatCourse()
-            .then(res => {
-                this.courses = res.data;
-            }).catch(err => {
-                this.courses = [];
-                console.log(err);
-            })
+                .then(res => {
+                    this.courses = res.data;
+                }).catch(err => {
+                    this.courses = [];
+                    console.log(err);
+                })
         },
-        addCourseHandler(event){
+        addCourseHandler(event) {
             event.preventDefault();
             console.log("reqreq" + this.addCourseInfo.requisitesOf);
             // const requisites = this.requisitesInput.split(",").map(requisite => requisite.trim());
             CourseService.addCourse(this.addCourseInfo)
-                .then(res =>{
+                .then(res => {
                     let couseDetail = res.data
                     console.log(res.data)
                     console.log(this.courseDetail)
-                    this.message = "Course added \n" +  JSON.stringify(couseDetail);
+                    this.message = "Course added \n" + JSON.stringify(couseDetail);
                 })
-                .catch(err =>{
+                .catch(err => {
                     this.addCourseInfo.code = "";
-                    this.addCourseInfo.title  ="";
+                    this.addCourseInfo.title = "";
                     this.addCourseInfo.requisitesOf = [];
                     // this.message = err.response.data.message;
                     console.log(err);
                 })
 
         },
+        getPrograms() {
+            ProgramService.getAllPrograms()
+                .then(response => {
+                    this.programOptions = response.data;
+                })
+                .catch(error => {
+                    console.error("Error fetching program options:", error);
+                });
+        }
     },
-    mounted(){
+    mounted() {
         this.message = "";
         this.geAllCourses();
+        this.getPrograms();
 
     }
 }
@@ -95,8 +116,8 @@ export default {
     padding: 20px;
     width: 70%;
     align-content: center;
-  justify-content: center;
-  margin: auto;
+    justify-content: center;
+    margin: auto;
 }
 
 .header {
@@ -155,6 +176,7 @@ export default {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
 }
+
 .searchbar-list {
     width: 350px;
     height: 350px;
