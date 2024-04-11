@@ -7,7 +7,7 @@
     <div class="nav-bar">
       <ul>
         <li @click="showTab('info')" :class="{ active: activeTab === 'info' }">Student Info</li>
-        <li @click="showTab('courseStatus')" :class="{ active: activeTab === 'courseStatus' }">Student Course Status</li>
+        <li v-if="String(isAdmin) === `false`" @click="showTab('courseStatus')" :class="{ active: activeTab === 'courseStatus' }">Student Course Status</li>
         <li @click="returnToMainPage">Back to Main Page</li>
       </ul>
     </div>
@@ -68,6 +68,7 @@ export default {
         taken: false,
         done: false
       },
+      isAdmin: false,
       message: "",
       studentInfo: {
         name: '',
@@ -107,6 +108,7 @@ export default {
   mounted() {
       this.studentInfo.name = localStorage.getItem("userName");
       this.studentInfo.id = localStorage.getItem('userId');
+      this.isAdmin = localStorage.getItem('isAdmin');
       this.studentInfo.program = JSON.parse(localStorage.getItem('program'));
       if(this.studentInfo.program && this.studentInfo.id){
         CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
