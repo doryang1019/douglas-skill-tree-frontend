@@ -14,7 +14,9 @@
             <button class="searchbtn" @click="returnHomePage">Return Home Page</button>
         </div>
 
-        <p class="text-f">{{ message }}</p>
+        <div v-if="message" class="searchbar-w">
+            <h4>Successfully Deleted!</h4>
+        </div>
     </div>
 </template>
 
@@ -71,6 +73,7 @@ export default {
 
 </script>
 <style scoped>
+@import '../css/message.css';
 .container {
     padding: 20px;
     width: 70%;

@@ -31,7 +31,9 @@
             <button class="searchbtn" @click="returnHomePage">Return Home Page</button>
         </div>
 
-        <p class="text-f">{{ message }}</p>
+        <div v-if="message" class="searchbar-w">
+            <h4>User Added!</h4>
+        </div>
     </div>
 </template>
 
@@ -89,12 +91,13 @@ export default {
 }
 </script>
 <style scoped>
+@import '../css/message.css';
 .container {
     padding: 20px;
     width: 70%;
     align-content: center;
-  justify-content: center;
-  margin: auto;
+    justify-content: center;
+    margin: auto;
 }
 
 .header {

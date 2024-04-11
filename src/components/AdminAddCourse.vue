@@ -29,7 +29,14 @@
             <button class="searchbtn" @click="returnHomePage">Return Home Page</button>
         </div>
 
-        <p class="text-f">{{ message }}</p>
+        <!-- <p class="text-f">{{ message }}</p> -->
+        <div v-if="message" class="searchbar-w">
+            <h4>Successfully Added!</h4>
+            <h5>Course Id: {{ message.id }}</h5>
+            <h5>Course Code: {{ message.code }}</h5>
+            <h5>Course title: {{ message.title}}</h5>
+        </div>
+        <!-- // Course added {"id":8,"code":"CSIS444","title":"Test1","requisitesOf":[6]} -->
     </div>
 </template>
 
@@ -81,7 +88,8 @@ export default {
             CourseService.addCourse({course: this.addCourseInfo, programId: this.program})
                 .then(res =>{
                     let couseDetail = res.data
-                    this.message = "Course added \n" +  JSON.stringify(couseDetail);
+                    this.message = couseDetail;
+                    // Course added {"id":8,"code":"CSIS444","title":"Test1","requisitesOf":[6]}
                 })
                 .catch(err =>{
                     this.addCourseInfo.code = "";
@@ -106,6 +114,7 @@ export default {
 
 
 <style scoped>
+@import '../css/message.css';
 .container {
     padding: 20px;
     width: 70%;
@@ -128,6 +137,7 @@ export default {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
 }
+
 
 .info {
     display: flex;

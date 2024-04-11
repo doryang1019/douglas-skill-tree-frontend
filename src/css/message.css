@@ -1,0 +1,20 @@
+h4, h5 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #776B5D;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+
+}
+
+h5 {
+    font-size: 14px;
+
+}
+.searchbar-w {
+    border: 2px solid #A79277; /* You can adjust the width and color of the border */
+    padding: 10px;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 10px;
+}

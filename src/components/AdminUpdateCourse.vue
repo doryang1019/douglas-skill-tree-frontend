@@ -25,7 +25,12 @@
             <button class="searchbtn" @click="returnHomePage">Return Home Page</button>
         </div>
 
-        <p class="text-f">{{ message }}</p>
+        <div v-if="message" class="searchbar-w">
+            <h4>Successfully Updated!</h4>
+            <h5>Course Id: {{ message.id }}</h5>
+            <h5>Course Code: {{ message.code }}</h5>
+            <h5>Course title: {{ message.title}}</h5>
+        </div>
     </div>
 </template>
 
@@ -89,7 +94,7 @@ export default {
                     let couseDetail = res.data;
                     console.log(res.data);
                     console.log(this.courseDetail);
-                    this.message = "Course Updated " + couseDetail;
+                    this.message = couseDetail;
                 })
                 .catch(err => {
                     this.selectedCourse = {};
@@ -115,6 +120,7 @@ export default {
 </script>
 
 <style scoped>
+@import '../css/message.css';
 .container {
     padding: 20px;
     width: 70%;
@@ -191,11 +197,6 @@ export default {
     font-size: 16px;
     outline: none;
     margin-bottom: 10px;
-}
-
-.text-f {
-    margin-bottom: 20px;
-    text-align: center;
 }
 
 .button-container {
