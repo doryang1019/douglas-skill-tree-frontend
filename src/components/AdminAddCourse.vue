@@ -25,8 +25,8 @@
             </select>
         </div>
         <div class="button-container">
-            <button class="searchbtn" @click="addCourseHandler">Add Course</button>
-            <button class="searchbtn" @click="returnHomePage">Return Home Page</button>
+            <button class="searchbtn home" @click="returnHomePage">Return Home Page</button>
+            <button class="searchbtn add" @click="addCourseHandler">Add Course</button>
         </div>
 
         <!-- <p class="text-f">{{ message }}</p> -->
@@ -115,12 +115,20 @@ export default {
 
 <style scoped>
 @import '../css/message.css';
+@import '../css/button.css';
+.searchbtn.home {
+    margin-left: -100px;
+    margin-right: 500px;
+
+}
+
 .container {
     padding: 20px;
     width: 70%;
     align-content: center;
   justify-content: center;
   margin: auto;
+  position: relative;
 }
 
 .header {
@@ -146,26 +154,6 @@ export default {
     font-size: 20px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
-}
-
-.searchbtn {
-    background-color: #d8caaf;
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 5px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
-}
-
-.searchbtn:hover {
-    background-color: #d3d4cc;
 }
 
 .searchbar {

@@ -10,8 +10,8 @@
             </select>
         </div>
         <div class="button-container">
+            <button class="searchbtn home" @click="returnHomePage">Return Home Page</button>
             <button class="searchbtn" @click="deleteCourseHandler">Delete Course</button>
-            <button class="searchbtn" @click="returnHomePage">Return Home Page</button>
         </div>
 
         <div v-if="message" class="searchbar-w">
@@ -74,6 +74,13 @@ export default {
 </script>
 <style scoped>
 @import '../css/message.css';
+@import '../css/button.css';
+
+.searchbtn.home {
+    margin-left: -100px;
+    margin-right: 500px;
+
+}
 .container {
     padding: 20px;
     width: 70%;
@@ -107,25 +114,6 @@ export default {
 
 }
 
-.searchbtn {
-    background-color: #d8caaf;
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 5px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
-}
-
-.searchbtn:hover {
-    background-color: #d3d4cc;
-}
 
 .searchbar {
     width: 350px;

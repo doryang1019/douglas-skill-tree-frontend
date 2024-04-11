@@ -5,7 +5,6 @@ import AdminHP from "@/components/AdminHomepage.vue"
 import AdminAdd from "@/components/AdminAddCourse.vue"
 import AdminUpdate from "@/components/AdminUpdateCourse.vue"
 import AdminDelete from "@/components/AdminDeleteCourse.vue"
-import AdminFindCSS from "@/components/AdminFindCourseStudStat.vue"
 import AddUser from "@/components/AddUser.vue";
 import StudentInfo from "@/components/StudentInfo.vue";
 const routes =[
@@ -35,11 +34,6 @@ const routes =[
         path:"/admin/delete",
         name:"deleteCourse",
         component: AdminDelete
-    },
-    {
-        path:"/admin/findCSS",
-        name:"findCourseOfStudent",
-        component: AdminFindCSS
     },
     {
         path: "/admin/addUser",

@@ -21,8 +21,8 @@
             </select>
         </div>
         <div class="button-container">
+            <button class="searchbtn home" @click="returnHomePage">Return Home Page</button>
             <button class="searchbtn" @click="updateCourseHandler">Update Course</button>
-            <button class="searchbtn" @click="returnHomePage">Return Home Page</button>
         </div>
 
         <div v-if="message" class="searchbar-w">
@@ -121,6 +121,12 @@ export default {
 
 <style scoped>
 @import '../css/message.css';
+@import '../css/button.css';
+.searchbtn.home {
+    margin-left: -100px;
+    margin-right: 500px;
+
+}
 .container {
     padding: 20px;
     width: 70%;
@@ -149,27 +155,9 @@ export default {
     font-size: 20px;
 }
 
-.searchbtn {
-    background-color: #d8caaf;
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 5px;
-}
-
-.searchbtn:hover {
-    background-color: #d3d4cc;
-}
-
 .searchbar {
-    width: 350px;
-    height: 40px;
+    width: 320px;
+    height: 30px;
     padding: 10px;
     border-radius: 20px;
     border: 1px solid #ccc;
@@ -178,7 +166,7 @@ export default {
     margin-bottom: 10px;
 }
 .searchbar-list-code {
-    width: 350px;
+    width: 340px;
     height: 40px;
     padding: 10px;
     border-radius: 20px;
@@ -189,7 +177,7 @@ export default {
 
 }
 .searchbar-list {
-    width: 350px;
+    width: 340px;
     height: 350px;
     padding: 10px;
     border-radius: 20px;

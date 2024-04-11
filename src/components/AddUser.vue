@@ -1,8 +1,5 @@
 <template>
     <div class="container">
-        <div class="header">
-            <h2 class="title">Add User</h2>
-        </div>
         <div class="info">
             <label>User Name</label>
         <input class="searchbar" type="text" id="username" v-model="userName" />
@@ -28,7 +25,6 @@
         </div>
         <div class="button-container">
             <button class="searchbtn" @click="addUser">Add User</button>
-            <button class="searchbtn" @click="returnHomePage">Return Home Page</button>
         </div>
 
         <div v-if="message" class="searchbar-w">
@@ -92,6 +88,12 @@ export default {
 </script>
 <style scoped>
 @import '../css/message.css';
+@import '../css/button.css';
+
+.searchbtn {
+    margin-top: 50px
+}
+
 .container {
     padding: 20px;
     width: 70%;
@@ -124,26 +126,6 @@ export default {
 
 }
 
-.searchbtn {
-    background-color: #d8caaf;
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 5px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
-}
-
-.searchbtn:hover {
-    background-color: #d3d4cc;
-}
-
 .searchbar {
     width: 300px;
     height: 50px;
@@ -169,12 +151,6 @@ export default {
 
 }
 
-.text-f {
-    margin-bottom: 20px;
-    text-align: center;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
-}
 
 .button-container {
     text-align: center;

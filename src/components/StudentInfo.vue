@@ -2,19 +2,20 @@
   <div class="container">
     <!-- Vertical navbars -->
     <div class="header">
-          <h2 class="title">User Information</h2>
+          <h2 class="title">{{ this.mainPageName }}</h2>
       </div>
     <div class="nav-bar">
       <ul>
-        <li @click="showTab('info')" :class="{ active: activeTab === 'info' }">Student Info</li>
+        <li @click="showTab('info')" :class="{ active: activeTab === 'info' }">Personal Profile</li>
         <li v-if="String(isAdmin) === `false`" @click="showTab('courseStatus')" :class="{ active: activeTab === 'courseStatus' }">Student Course Status</li>
+        <li v-if="String(isAdmin) === `true`" @click="showTab('adduser')"  :class="{ active: activeTab === 'adduser' }">Add Admin/User</li>
         <li @click="returnToMainPage">Back to Main Page</li>
       </ul>
     </div>
 
     <!-- Content area -->
     <div>
-      <div v-if="activeTab === 'info' &&!isAdmin">
+      <div v-if="activeTab === 'info'">
         <div class="info">
           <label>Student ID:</label>
           <p>{{ studentInfo.id }}</p>
@@ -53,13 +54,18 @@
               </tbody>
             </table>
       </div>
+      <div v-else-if="activeTab === 'adduser'">
+        <add-user></add-user>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
 import CourseService from '@/services/CourseService';
+import AddUser from './AddUser.vue';
 export default {
+  components: { AddUser },
   name: 'StudentInfo',
   data() {
     return {
@@ -68,6 +74,8 @@ export default {
         taken: false,
         done: false
       },
+      mainPageName: "",
+      infoPageName: "",
       isAdmin: false,
       message: "",
       studentInfo: {
@@ -75,12 +83,15 @@ export default {
         program: { description: "", id: "", stream: 0},
         id: "",
         courses: null,
-      }
+      },
     };
   },
   methods: {
     showTab(tabName) {
       this.activeTab = tabName;
+    },
+    goToAddUser() {
+            this.$router.push({ name: "addUser" });
     },
     returnToMainPage() {
       // Redirect to the main page
@@ -113,8 +124,8 @@ export default {
 
       this.isAdmin = this.$route.query.isAdmin === 'true';
 
-
-
+      this.infoPageName = this.isAdmin ? "Admin Info" : "StudentInfo";
+      this.mainPageName = this.isAdmin ? "Admin Page" : "StudentInfo";
       if (this.studentInfo.program){
         if(this.studentInfo.program && this.studentInfo.id){
         CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
@@ -144,11 +155,16 @@ export default {
       }
   }
       }
-      
+
 };
 </script>
 
 <style scoped>
+@import '../css/button.css';
+
+.searchbtn {
+    height: 45px;
+}
 .nav-bar {
   margin-bottom: 10px;
 }

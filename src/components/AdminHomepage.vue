@@ -10,18 +10,17 @@
             </div>
         </div>
         <nav class="nav-bar">
-            <button @click="btnAllCoursesHandler">All courses</button>
             <button v-if="isAdmin" @click="goToAddCourse">Add Course</button>
             <button v-if="isAdmin" @click="goToUpdateCourse">Update Course</button>
             <button v-if="isAdmin" @click="goToDeleteCourse">Delete Course</button>
-            <button v-if="isAdmin" @click="goToAddUser">Add Admin/User</button>
-            <button @click="goToStudentInfo">My Information</button>
+            <button @click="goToStudentInfo">{{ this.infoPageName }}</button>
             <button @click="goToLoginPage">Logout</button>
         </nav>
         <div v-if="showCourses && courses" class="course-container">
             <div class="search-container">
                 <input class="searchbar" type="text" v-model="courseKeyword" placeholder="Please enter course code or course name">
                 <button class="searchbtn" @click="findCourseByKeyword"> Search Course</button>
+                <button class="resetbtn" @click="btnAllCoursesHandler">See All</button>
             </div>
             <div v-for="course in courses" :key="course.id" class="course-card" :style="{ backgroundColor: course.status.taken ? course.status.done ? '#FBF9F1' : '#FFF8E3' : ''}">
                 <h3>{{ course.title }}</h3>
@@ -57,6 +56,7 @@ export default {
             userId: "",
             userProgram: null,
             courseKeyword: "",
+            infoPageName: "",
         }
     },
     methods: {
@@ -86,6 +86,7 @@ export default {
         },
         btnAllCoursesHandler() {
             this.showCourses = true;
+            this.courseKeyword = "";
             this.retrieveCourses();
         },
         goToAddCourse() {
@@ -110,6 +111,7 @@ export default {
     mounted() {
         console.log("isAdmin: " + localStorage.getItem('isAdmin'));
         this.isAdmin = localStorage.getItem('isAdmin').toString() === "true" ? true : false;
+        this.infoPageName = this.isAdmin ? "Admin Page" : "Student Info";
         this.userId = localStorage.getItem('userId');
         this.userName = localStorage.getItem('userName');
         this.userProgram = JSON.parse(localStorage.getItem('program'));
@@ -120,23 +122,9 @@ export default {
 </script>
 
 <style scoped>
-.searchbtn {
-    background-color: #d8caaf;
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 5px;
-}
+@import '../css/button.css';
 
-.searchbtn:hover {
-    background-color: #d3d4cc;
-}
+
 
 .search-container {
     text-align: center;
