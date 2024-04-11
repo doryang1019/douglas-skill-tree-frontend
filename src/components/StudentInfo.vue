@@ -33,6 +33,7 @@
           <h2>Student Course Status</h2>
           <!-- Display student course status here -->
           <p>This section is under construction</p>
+          <!-- get course list from Program_Has_course -->
         </div>
       </div>
     </div>
