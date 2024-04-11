@@ -27,8 +27,12 @@ class CourseService{
     getUnformatCourse() {
         return http.get(`/course/all`);
     }
-
-
+    getCoursesByProgram(programId, userId){
+        return http.get(`/course/status/${programId}/${userId}`)
+    }
+    updateCourseStatus(courseId, userId, isTaken, isDone){
+        return http.put(`/course/status/update?courseId=${courseId}&userId=${userId}&isTakenStatus=${isTaken}&isDoneStatus=${isDone}`)
+    }
 }
 
 export default new CourseService();
