@@ -1,5 +1,5 @@
 <template>
-    <li v-for="(requisite) in requisites" :key="requisite.id" class="requisite-item" :style="{ backgroundColor: requisite.status.taken ? requisite.status.done ? '#B0C5A4' : '#eee8aa' : ''}">
+    <li v-for="(requisite) in requisites" :key="requisite.id" class="requisite-item" :style="{ backgroundColor: requisite.status.taken ? requisite.status.done ? '#B0C5A4' : '#eee8aa' : '#FEFDED'}">
       <div class="requisite-content">
         <div class="requisite-header">
           <h3>{{ requisite.title }}</h3>

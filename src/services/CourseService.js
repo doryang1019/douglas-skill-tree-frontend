@@ -27,11 +27,14 @@ class CourseService{
     getUnformatCourse() {
         return http.get(`/course/all`);
     }
+    getUpperCourse(courseId) {
+        return http.get(`/course/nonUpper?courseId=${courseId}`);
+    }
     getCoursesByProgram(programId, userId){
         return http.get(`/course/status/${programId}/${userId}`)
     }
     updateCourseStatus(courseId, userId, isTaken, isDone){
-        return http.put(`/course/status/update?courseId=${courseId}&userId=${userId}&isTakenStatus=${isTaken}&isDoneStatus=${isDone}`)
+        return http.put(`/course?courseId=${courseId}&userId=${userId}&isTakenStatus=${isTaken}&isDoneStatus=${isDone}`)
     }
 }
 

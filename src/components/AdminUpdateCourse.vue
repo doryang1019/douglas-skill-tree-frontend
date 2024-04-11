@@ -17,7 +17,7 @@
         <div class="info">
             <label>Requisites Of</label>
             <select class="searchbar-list" v-model="selectedRequisites" multiple>
-                <option v-for="course in courses2" :key="course.id" :value="course.id">{{ course.title }}</option>
+                <option v-for="course in requisiteCourses" :key="course.id" :value="course.id">{{ course.title }}</option>
             </select>
         </div>
         <div class="button-container">
@@ -43,12 +43,20 @@ export default {
             selectedRequisites: [],
             message: "",
             courses: [],
-            courses2: []
+            requisiteCourses: []
         }
     },
     methods: {
         filterRequisites() {
-            this.courses2 = this.courses2.filter(x => x.id !== this.selectedCourse.id);
+            CourseService.getUpperCourse(this.selectedCourse.id)
+            .then(res => {
+                this.requisiteCourses = res.data;
+            })
+            .catch(err => {
+                console.log(err);
+                this.requisiteCourses = [];
+            });
+            this.requisiteCourses;
         },
         changePlaceHolder() {
             if(this.selectedCourse.title) {
@@ -61,7 +69,6 @@ export default {
             CourseService.getUnformatCourse()
                 .then(res => {
                     this.courses = res.data;
-                    this.courses2 = JSON.parse(JSON.stringify(res.data));
                 }).catch(err => {
                     this.courses = [];
                     console.log(err);
