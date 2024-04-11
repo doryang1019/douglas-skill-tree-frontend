@@ -12,6 +12,13 @@
             <input type="text" class="searchbar" v-model="addCourseInfo.title" placeholder="please enter course title"/>
         </div>
         <div class="info">
+            <label>Program Name</label>
+            <select class="searchbar" v-model="program">
+            <option v-for="(programOption) in programOptions" :key="programOption.id" :stream="programOption.stream"
+                :value="programOption.id">{{ programOption.description }}</option>
+             </select>
+        </div>
+        <div class="info">
             <label>Requisites Of</label>
             <select class="searchbar-list" v-model="addCourseInfo.requisitesOf" multiple>
                 <option v-for="course in courses" :key="course.id" :value="course.id">{{ course.title }}</option>
@@ -30,7 +37,7 @@
 
 
 import CourseService from '@/services/CourseService'
-
+import ProgramService from '@/services/ProgramService';
 export default {
     name: "adminAddCourse",
     data(){
@@ -41,6 +48,8 @@ export default {
            requisitesInput: "",
             message:"",
             courses: [],
+            program: "",
+            programOptions: [],
 
         }
     },
@@ -48,6 +57,15 @@ export default {
         returnHomePage(event) {
             event.preventDefault();
             this.$router.push({name:"adminHomePage"});
+        },
+        getPrograms() {
+            ProgramService.getAllPrograms()
+                .then(response => {
+                    this.programOptions = response.data;
+                })
+                .catch(error => {
+                    console.error("Error fetching program options:", error);
+                });
         },
         geAllCourses() {
             CourseService.getUnformatCourse()
@@ -61,8 +79,9 @@ export default {
         addCourseHandler(event){
             event.preventDefault();
             console.log("reqreq" + this.addCourseInfo.requisitesOf);
+            console.log("programId: " + this.program);
             // const requisites = this.requisitesInput.split(",").map(requisite => requisite.trim());
-            CourseService.addCourse(this.addCourseInfo)
+            CourseService.addCourse({course: this.addCourseInfo, programId: this.program})
                 .then(res =>{
                     let couseDetail = res.data
                     console.log(res.data)
@@ -82,6 +101,7 @@ export default {
     mounted(){
         this.message = "";
         this.geAllCourses();
+        this.getPrograms();
 
     }
 }
