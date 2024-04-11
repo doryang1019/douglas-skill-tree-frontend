@@ -51,6 +51,7 @@
               </td>
                 <td><button @click="updateCourseStatus(course.id, studentInfo.id, course.selectedStatus)">Update</button></td>
                 <!-- {{ course.status ? course.status.taken ? course.status.done ? "Finished" : "Progressing" : "Not Taken" :  "NA" }} -->
+
               </tbody>
             </table>
       </div>
@@ -107,6 +108,10 @@ export default {
       .then(() => {
         this.message = "update successful."
       });
+    },
+    test(course){
+      console.log("taken:" + course.status.taken + ", done: " + course.status.done)
+      console.log("selected: " + course.selectedStatus);
     }
   },
   mounted() {
