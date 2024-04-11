@@ -7,7 +7,7 @@
     <div class="nav-bar">
       <ul>
         <li @click="showTab('info')" :class="{ active: activeTab === 'info' }">Student Info</li>
-        <li @click="showTab('courseStatus'); getCourseByProgram()" :class="{ active: activeTab === 'courseStatus' }">Student Course Status</li>
+        <li @click="showTab('courseStatus')" :class="{ active: activeTab === 'courseStatus' }">Student Course Status</li>
         <li @click="returnToMainPage">Back to Main Page</li>
       </ul>
     </div>
@@ -43,13 +43,13 @@
               <tbody v-for="course in courses" :key="course.id" class="course-card">
                 <td>{{ course.title }}({{ course.code }})</td>
                 <td>
-                  <select>
+                  <select v-model="course.selectedStatus" >
                     <option value="Not" :selected="!course.status || !course.status.taken">Not Taken</option>
                     <option value="Progressing" :selected="course.status && course.status.taken && !course.status.done">Progressing</option>
                     <option value="Finished" :selected="course.status && course.status.taken && course.status.done">Finished</option>
                   </select>
               </td>
-                <td><button @click="updateCourseStatus(course.id, studentInfo.id, selectedStatus)">Update</button></td>
+                <td><button @click="updateCourseStatus(course.id, studentInfo.id, course.selectedStatus)">Update</button></td>
                 <!-- {{ course.status ? course.status.taken ? course.status.done ? "Finished" : "Progressing" : "Not Taken" :  "NA" }} -->
               </tbody>
             </table>
@@ -69,7 +69,7 @@ export default {
         taken: false,
         done: false
       },
-      selectedStatus: "",
+      // selectedStatus: "",
       message: "",
       studentInfo: {
         name: '',
@@ -87,32 +87,19 @@ export default {
       // Redirect to the main page
       this.$router.push({ name: 'adminHomePage' });
     },
-    getCourseByProgram(){
-      CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
-      .then(response => {
-        this.courses = response.data;
-      })
-      .catch(err => {
-        console.error("Error fetching courses:", err);
-      });
-    },
     updateCourseStatus(courseId, userId, status){
       let isTaken = null;
       let isDone = null;
       console.log("status: " + status);
-      switch(status){
-        case "Not":
-          isTaken = false;
-          isDone = false;
-          break;
-        case "Progressing":
-          isTaken = true;
-          isDone = false;
-          break;
-        case "Finishied":
-          isTaken = true;
-          isDone = true;
-          break;
+      if(status == "Finished"){
+        isTaken = true;
+        isDone = true;
+      } else if(status == "Progressing"){
+        isTaken = true;
+        isDone = false;
+      } else {
+        isTaken = false;
+        isDone = false;
       }
       console.log("Taken: " + isTaken);
       console.log("Done: " + isDone);
@@ -126,6 +113,18 @@ export default {
       this.studentInfo.name = localStorage.getItem("userName");
       this.studentInfo.id = localStorage.getItem('userId');
       this.studentInfo.program = JSON.parse(localStorage.getItem('program'));
+      this.courses = CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
+      .then(response => {
+        this.courses = response.data.map(course => {
+          return{
+            ...course,
+            selectedStatus: ""
+          }
+        });
+      })
+      .catch(err => {
+        console.error("Error fetching courses:", err);
+      });
   }
 };
 </script>
