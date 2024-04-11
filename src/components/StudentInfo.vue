@@ -113,13 +113,36 @@ export default {
       this.studentInfo.name = localStorage.getItem("userName");
       this.studentInfo.id = localStorage.getItem('userId');
       this.studentInfo.program = JSON.parse(localStorage.getItem('program'));
-      this.courses = CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
+      // this.courses = CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
+      // .then(response => {
+      //   this.courses = response.data.map(course => {
+      //     return{
+      //       ...course,
+      //       selectedStatus: ""
+      //     }
+      //   });
+      // })
+
+      CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
       .then(response => {
         this.courses = response.data.map(course => {
-          return{
-            ...course,
-            selectedStatus: ""
+          let selectedStatus = "";
+          if (course.status) {
+            if (course.status.done) {
+              selectedStatus = "Finished";
+            } else if (course.status.taken) {
+              selectedStatus = "Progressing";
+            } else {
+              selectedStatus = "Not";
+            }
+          } else {
+            selectedStatus = "NA";
           }
+
+          return {
+            ...course,
+            selectedStatus: selectedStatus
+          };
         });
       })
       .catch(err => {
