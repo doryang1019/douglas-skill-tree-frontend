@@ -50,8 +50,6 @@
                   </select>
               </td>
                 <td><button @click="updateCourseStatus(course.id, studentInfo.id, course.selectedStatus)">Update</button></td>
-                <!-- {{ course.status ? course.status.taken ? course.status.done ? "Finished" : "Progressing" : "Not Taken" :  "NA" }} -->
-
               </tbody>
             </table>
       </div>
@@ -70,7 +68,6 @@ export default {
         taken: false,
         done: false
       },
-      // selectedStatus: "",
       message: "",
       studentInfo: {
         name: '',
@@ -91,7 +88,6 @@ export default {
     updateCourseStatus(courseId, userId, status){
       let isTaken = null;
       let isDone = null;
-      console.log("status: " + status);
       if(status == "Finished"){
         isTaken = true;
         isDone = true;
@@ -102,32 +98,16 @@ export default {
         isTaken = false;
         isDone = false;
       }
-      console.log("Taken: " + isTaken);
-      console.log("Done: " + isDone);
       CourseService.updateCourseStatus(courseId, userId, isTaken, isDone)
       .then(() => {
         this.message = "update successful."
       });
     },
-    test(course){
-      console.log("taken:" + course.status.taken + ", done: " + course.status.done)
-      console.log("selected: " + course.selectedStatus);
-    }
   },
   mounted() {
       this.studentInfo.name = localStorage.getItem("userName");
       this.studentInfo.id = localStorage.getItem('userId');
       this.studentInfo.program = JSON.parse(localStorage.getItem('program'));
-      // this.courses = CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
-      // .then(response => {
-      //   this.courses = response.data.map(course => {
-      //     return{
-      //       ...course,
-      //       selectedStatus: ""
-      //     }
-      //   });
-      // })
-
       CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
       .then(response => {
         this.courses = response.data.map(course => {
@@ -143,7 +123,6 @@ export default {
           } else {
             selectedStatus = "NA";
           }
-
           return {
             ...course,
             selectedStatus: selectedStatus
