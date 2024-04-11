@@ -101,7 +101,7 @@ export default {
             this.$router.push({ name: "addUser" });
         },
         goToStudentInfo() {
-            this.$router.push({ name: "studentInfo" });
+            this.$router.push({ name: "studentInfo",query: { isAdmin: this.isAdmin } });
         },
         goToLoginPage() {
             this.$router.push({ name: "userLogin" });

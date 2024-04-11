@@ -14,7 +14,7 @@
 
     <!-- Content area -->
     <div>
-      <div v-if="activeTab === 'info'">
+      <div v-if="activeTab === 'info' &&!isAdmin">
         <div class="info">
           <label>Student ID:</label>
           <p>{{ studentInfo.id }}</p>
@@ -110,7 +110,13 @@ export default {
       this.studentInfo.id = localStorage.getItem('userId');
       this.isAdmin = localStorage.getItem('isAdmin');
       this.studentInfo.program = JSON.parse(localStorage.getItem('program'));
-      if(this.studentInfo.program && this.studentInfo.id){
+
+      this.isAdmin = this.$route.query.isAdmin === 'true';
+
+
+
+      if (this.studentInfo.program){
+        if(this.studentInfo.program && this.studentInfo.id){
         CourseService.getCoursesByProgram(this.studentInfo.program.id, this.studentInfo.id)
       .then(response => {
         this.courses = response.data.map(course => {
@@ -137,6 +143,8 @@ export default {
       });
       }
   }
+      }
+      
 };
 </script>
 
