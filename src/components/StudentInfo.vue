@@ -2,8 +2,9 @@
   <div class="container">
     <!-- Vertical navbars -->
     <div class="header">
-          <h2 class="title">{{ this.mainPageName }}</h2>
-      </div>
+      <h2 class="title">{{ this.mainPageName }}</h2>
+    </div>
+
     <div class="nav-bar">
       <ul>
         <li @click="showTab('info')" :class="{ active: activeTab === 'info' }">Personal Profile</li>
@@ -28,35 +29,32 @@
           <label>Program:</label>
           <p>{{ studentInfo.program ? studentInfo.program.description : "None" }}</p>
         </div>
+      </div>
 
-      </div>
       <div v-else-if="activeTab === 'courseStatus'">
-        <h2>Student Course Status</h2>
-        <!-- Display student course status here -->
-            <table>
-              <thead>
-                <tr>
-                  <th>Course</th>
-                  <th>Status</th>
-                  <th>Submit</th>
-                </tr>
-              </thead>
-              <tbody v-for="course in courses" :key="course.id" class="course-card">
-                <td>{{ course.title }}({{ course.code }})</td>
-                <td>
-                  <select v-model="course.selectedStatus" >
-                    <option value="Not" :selected="!course.status || !course.status.taken">Not Taken</option>
-                    <option value="Progressing" :selected="course.status && course.status.taken && !course.status.done">Progressing</option>
-                    <option value="Finished" :selected="course.status && course.status.taken && course.status.done">Finished</option>
-                  </select>
-              </td>
-                <td><button @click="updateCourseStatus(course.id, studentInfo.id, course.selectedStatus)">Update</button></td>
-              </tbody>
-            </table>
+        <div class="card shadow space">
+          <div class="card-header">
+            <b>Student Course Status</b>
+          </div>
+        </div>
+        <tbody class="card shadow space" v-for="course in courses" :key="course.id">
+          <tr class="card-body text-f">
+            <td class="col-lg-8 ms-auto card-title">{{ course.code }}:<br>{{ course.title }}</td>
+            <td>
+              <select class="form-select ms-auto me-3 card-text" v-model="course.selectedStatus">
+                <option value="Not" :selected="!course.status || !course.status.taken">Not Taken</option>
+                <option value="Progressing" :selected="course.status && course.status.taken && !course.status.done">Progressing</option>
+                <option value="Finished" :selected="course.status && course.status.taken && course.status.done">Finished</option>
+              </select>
+            </td>
+            <td><button class="btn btn-success card-text" @click="updateCourseStatus(course.id, studentInfo.id, course.selectedStatus)">Update</button></td>
+          </tr>
+        </tbody>
       </div>
+      
       <div v-else-if="activeTab === 'adduser'">
         <add-user></add-user>
-        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -153,15 +151,14 @@ export default {
         console.error("Error fetching courses:", err);
       });
       }
+    }
   }
-      }
 
 };
 </script>
 
 <style scoped>
 @import '../css/button.css';
-
 .searchbtn {
     height: 45px;
 }
@@ -237,8 +234,6 @@ margin: auto;
   margin-left: 20px;
 }
 
-
-
 .searchbtn {
   background-color: #d8caaf;
   color: white;
@@ -252,7 +247,6 @@ margin: auto;
   transition: background-color 0.3s;
   margin-left: 5px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
 }
 
 .searchbtn:hover {
@@ -269,7 +263,6 @@ margin: auto;
   outline: none;
   margin-bottom: 10px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
 }
 .searchbar-list {
   width: 350px;
@@ -281,19 +274,28 @@ margin: auto;
   outline: none;
   margin-bottom: 10px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
 }
 
 .text-f {
   margin-bottom: 20px;
-  text-align: center;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
+  font-weight: bold;
 }
 
 .button-container {
   text-align: center;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.card-header {
+  background-color: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+}
 
+.btn-success {
+  background-color: #d8caaf !important;
+  color: #000000;
+}
+.space{
+  margin: 5px;
 }
 </style>
