@@ -55,7 +55,7 @@ export default {
                 .catch(err =>{
                     this.courseID = 0;
 
-                    this.message = "Forbidden Delete Action\nThis Course Has Child Course";
+                    this.message = "Forbidden Delete Action\nThis Course Both Parent Course and Child Course";
                     console.log(err);
                 })
         },

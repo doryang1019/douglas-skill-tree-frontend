@@ -18,14 +18,14 @@
     <div>
       <div v-if="activeTab === 'info'">
         <div class="info">
-          <label>Student ID:</label>
+          <label>{{stuTitle}} ID:</label>
           <p>{{ studentInfo.id }}</p>
         </div>
         <div class="info">
-          <label>Student Name:</label>
+          <label>{{stuTitle}} Name:</label>
           <p>{{ studentInfo.name }}</p>
         </div>
-        <div class="info">
+        <div v-if="!isAdmin" class="info">
           <label>Program:</label>
           <p>{{ studentInfo.program ? studentInfo.program.description : "None" }}</p>
         </div>
@@ -51,7 +51,7 @@
           </tr>
         </tbody>
       </div>
-      
+
       <div v-else-if="activeTab === 'adduser'">
         <add-user></add-user>
       </div>
@@ -72,6 +72,7 @@ export default {
         taken: false,
         done: false
       },
+      stuTitle: "",
       mainPageName: "",
       infoPageName: "",
       isAdmin: false,
@@ -121,7 +122,7 @@ export default {
       this.studentInfo.program = JSON.parse(localStorage.getItem('program'));
 
       this.isAdmin = this.$route.query.isAdmin === 'true';
-
+     this.stuTitle = this.isAdmin ? "Admin" : "Student";
       this.infoPageName = this.isAdmin ? "Admin Info" : "StudentInfo";
       this.mainPageName = this.isAdmin ? "Admin Page" : "StudentInfo";
       if (this.studentInfo.program){

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="info">
-            <label>User Name</label>
+            <label>UserName</label>
         <input class="searchbar" type="text" id="username" v-model="userName" />
         </div>
         <div class="info">
