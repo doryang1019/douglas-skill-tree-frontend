@@ -15,7 +15,7 @@
         </div>
 
         <div v-if="message" class="searchbar-w">
-            <h4>Successfully Deleted!</h4>
+            <h4>{{message}}</h4>
         </div>
     </div>
 </template>
